@@ -72,6 +72,16 @@ resource "aws_autoscaling_group" "main" {
   }
 }
 
+resource "aws_lb_target_group" "test" {
+  name     = "${var.component_name}-${var.env}"
+  port     = 80
+  protocol = "HTTP"
+  vpc_id   = aws_vpc.main.id
+}
+
+resource "aws_vpc" "main" {
+  cidr_block = "10.0.0.0/16"
+}
 resource "aws_lb" "main" {
   name               = "${var.component_name}-${var.env}"
   internal           = var.alb_internal
@@ -84,17 +94,6 @@ resource "aws_lb" "main" {
   }
 }
 
-# resource "aws_instance" "main" {
-#   depends_on = [aws_security_group.main]
-#
-#   ami           = data.aws_ami.ami.id
-#   instance_type = var.instance_type
-#   vpc_security_group_ids = [aws_security_group.main.id]
-#
-#   tags = {
-#     Name = "${var.component_name}-${var.env}"
-#   }
-# }
 
 resource "aws_route53_record" "main" {
   zone_id = data.aws_route53_zone.main.zone_id
