@@ -6,5 +6,5 @@ variable "dns_domain" {}
 
 variable "asg_min_size" {}
 variable "asg_max_size" {}
-variable "alb_internal" {}
+variable "alb" {}
 variable "alb_subnets" {}
