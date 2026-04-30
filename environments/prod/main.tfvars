@@ -53,3 +53,4 @@ database = {
 
 dns_domain = "devopsbymanju.shop."
 env = "prod"
+
