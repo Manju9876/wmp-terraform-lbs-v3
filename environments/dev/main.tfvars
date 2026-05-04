@@ -57,7 +57,7 @@ apps = {
     }
     asg = {
       min_size = 2
-      max_sixe = 5
+      max_size = 5
     }
   }
 }
