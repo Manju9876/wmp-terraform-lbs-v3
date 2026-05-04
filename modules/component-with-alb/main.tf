@@ -84,6 +84,16 @@ resource "aws_lb_target_group" "main" {
   port     = var.alb["ports"]
   protocol = "HTTP"
   vpc_id   = var.vpc_id
+
+    health_check {
+    path = "/health"
+    healthy_threshold = 2
+    unhealthy_threshold = 2
+      interval = 5
+      timeout = 2
+      matcher = "200,403"
+
+    }
 }
 
 resource "aws_lb" "main" {
