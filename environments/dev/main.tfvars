@@ -1,3 +1,6 @@
+dns_domain = "devopsbymanju.shop."
+env = "dev"
+
 apps = {
   frontend = {
     instance_type = "t3.small"
@@ -16,7 +19,7 @@ apps = {
     }
     alb = {
       ports = 8081
-      alb_internal = false
+      alb_internal = true
     }
   }
   portfolio-service = {
@@ -26,7 +29,7 @@ apps = {
     }
     alb = {
       ports = 8080
-      alb_internal = false
+      alb_internal = true
     }
   }
   analytics-service = {
@@ -36,7 +39,7 @@ apps = {
     }
     alb = {
       ports = 8000
-      alb_internal = false
+      alb_internal = true
     }
   }
 }
@@ -51,5 +54,3 @@ database = {
   }
 }
 
-dns_domain = "devopsbymanju.shop."
-env = "dev"
