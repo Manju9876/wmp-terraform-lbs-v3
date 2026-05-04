@@ -62,9 +62,9 @@ resource "aws_launch_template" "main" {
 
 resource "aws_autoscaling_group" "main" {
   availability_zones = ["us-east-1a","us-east-1b"]
-  desired_capacity   = var.asg_min_size
-  max_size           = var.asg_max_size
-  min_size           = var.asg_min_size
+  desired_capacity   = var.asg["min_size"]
+  max_size           = var.asg["max_size"]
+  min_size           = var.asg["min_size"]
 
   launch_template {
     id      = aws_launch_template.main.id
@@ -72,11 +72,11 @@ resource "aws_autoscaling_group" "main" {
   }
 }
 
-resource "aws_lb_target_group" "test" {
+resource "aws_lb_target_group" "main" {
   name     = "${var.component_name}-${var.env}"
   port     = var.alb["ports"]
   protocol = "HTTP"
-  vpc_id   = aws_vpc.main.id
+  vpc_id   = var.vpc_id
 }
 
 resource "aws_lb" "main" {

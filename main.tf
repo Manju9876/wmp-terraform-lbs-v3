@@ -1,24 +1,29 @@
-module "apps" {
-  for_each   = var.apps
-  source     = "./modules/component"
-
+module "database" {
+  for_each = var.database
+  source   = "./modules/component"
 
   component_name = each.key
   dns_domain     = var.dns_domain
   env            = var.env
   instance_type  = each.value["instance_type"]
   ports          = each.value["ports"]
-
 }
 
-module "database" {
-  depends_on = [module.apps]
-  for_each =  var.database
-  source = "./modules/component"
+module "apps" {
+  depends_on = [module.database]
+  source = "./modules/component-with-alb"
 
+  dns_domain = var.dns_domain
+  env        = var.env
+  vpc_id     = var.vpc_id
+
+
+  for_each       = var.apps
   component_name = each.key
-  dns_domain     = var.dns_domain
-  env            = var.env
   instance_type  = each.value["instance_type"]
   ports          = each.value["ports"]
+  alb            = each.value["lb"]
+  alb_subnets    = var.alb_subnets
+  asg            = each.value["asg"]
+
 }

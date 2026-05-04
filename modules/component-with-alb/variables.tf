@@ -4,7 +4,7 @@ variable "instance_type" {}
 variable "ports" {}
 variable "dns_domain" {}
 
-variable "asg_min_size" {}
-variable "asg_max_size" {}
+variable "asg" {}
 variable "alb" {}
 variable "alb_subnets" {}
+variable "vpc_id" {}

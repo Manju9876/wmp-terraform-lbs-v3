@@ -7,3 +7,5 @@ variable "apps" {}
 variable "database" {}
 variable "dns_domain" {}
 variable "env" {}
+variable "alb_subnets" {}
+variable "vpc_id" {}
