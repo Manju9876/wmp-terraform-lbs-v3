@@ -87,7 +87,7 @@ resource "aws_lb" "main" {
   subnets            = var.alb_subnets
 
   tags = {
-    Environment = "${var.component_name}-${env}"
+    Environment = "${var.component_name}-${var.env}"
   }
 }
 
