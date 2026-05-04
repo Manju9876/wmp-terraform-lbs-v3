@@ -65,7 +65,7 @@ resource "aws_autoscaling_group" "main" {
   desired_capacity   = var.asg["min_size"]
   max_size           = var.asg["max_size"]
   min_size           = var.asg["min_size"]
-
+  target_group_arns  = [aws_lb_target_group.main.arn]
   launch_template {
     id      = aws_launch_template.main.id
     version = "$Latest"
