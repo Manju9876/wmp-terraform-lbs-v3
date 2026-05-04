@@ -25,5 +25,4 @@ module "apps" {
   ports          = each.value["ports"]
   alb            = each.value["alb"]
   asg            = each.value["asg"]
-
 }
