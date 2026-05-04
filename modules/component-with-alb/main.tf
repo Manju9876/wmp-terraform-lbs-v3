@@ -56,7 +56,6 @@ resource "aws_launch_template" "main" {
       ENV = var.env
       COMPONENT = var.component_name
     }
-
   )
 
   tag_specifications {
