@@ -15,7 +15,7 @@ apps = {
     }
     asg = {
       min_size = 2
-      max_sixe = 5
+      max_size = 5
     }
   }
   auth-service = {
@@ -29,7 +29,7 @@ apps = {
     }
     asg = {
       min_size = 2
-      max_sixe = 5
+      max_size = 5
     }
   }
   portfolio-service = {
@@ -43,7 +43,7 @@ apps = {
     }
     asg = {
       min_size = 2
-      max_sixe = 5
+      max_size = 5
     }
   }
   analytics-service = {

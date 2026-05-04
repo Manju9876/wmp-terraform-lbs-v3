@@ -23,7 +23,7 @@ module "apps" {
   component_name = each.key
   instance_type  = each.value["instance_type"]
   ports          = each.value["ports"]
-  alb            = each.value["lb"]
+  alb            = each.value["alb"]
   asg            = each.value["asg"]
 
 }
