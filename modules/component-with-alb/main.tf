@@ -13,7 +13,7 @@ resource "aws_security_group" "instance" {
     to_port   = 0
     protocol  = "-1"
     cidr_blocks = ["0.0.0.0/0"]
-     }
+  }
 
   tags = {
     Name = "${var.component_name}-${var.env}-instance"
@@ -46,6 +46,7 @@ resource "aws_security_group" "alb" {
     Name = "${var.component_name}-${var.env}-alb"
   }
 }
+
 resource "aws_launch_template" "main" {
   name          = "${var.component_name}-${var.env}"
   image_id      = data.aws_ami.ami.id
@@ -69,7 +70,7 @@ resource "aws_launch_template" "main" {
 }
 
 resource "aws_autoscaling_group" "main" {
-  name = "${var.component_name}-${var.env}"
+  name             = "${var.component_name}-${var.env}"
   availability_zones = ["us-east-1a", "us-east-1b"]
   desired_capacity = var.asg["min_size"]
   max_size         = var.asg["max_size"]
@@ -94,8 +95,7 @@ resource "aws_lb_target_group" "main" {
     unhealthy_threshold = 2
     interval            = 5
     timeout             = 2
-    matcher             = "200,403"
-
+    matcher             = "200,403,404"
   }
 }
 
@@ -103,7 +103,7 @@ resource "aws_lb" "main" {
   name               = "${var.component_name}-${var.env}"
   internal           = var.alb["alb_internal"]
   load_balancer_type = "application"
-  security_groups    = [aws_security_group.alb.id]
+  security_groups = [aws_security_group.alb.id]
   subnets            = var.alb_subnets
 
   tags = {
