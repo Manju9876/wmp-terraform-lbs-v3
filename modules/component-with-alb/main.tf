@@ -69,6 +69,7 @@ resource "aws_launch_template" "main" {
 }
 
 resource "aws_autoscaling_group" "main" {
+  name = "${var.component_name}-${var.env}"
   availability_zones = ["us-east-1a", "us-east-1b"]
   desired_capacity = var.asg["min_size"]
   max_size         = var.asg["max_size"]
