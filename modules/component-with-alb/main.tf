@@ -47,16 +47,17 @@ resource "aws_security_group" "alb" {
   }
 }
 resource "aws_launch_template" "main" {
-  name = "${var.component_name}-${var.env}"
-  image_id = data.aws_ami.ami.id
+  name          = "${var.component_name}-${var.env}"
+  image_id      = data.aws_ami.ami.id
   instance_type = var.instance_type
-  vpc_security_group_ids = [aws_security_group.instance.id,aws_security_group.alb.id]
+  vpc_security_group_ids = [aws_security_group.instance.id, aws_security_group.alb.id]
+
   user_data = base64encode(
     templatefile("${path.module}/user_data.sh",
-    {
-      ENV = var.env
-      COMPONENT = var.component_name
-    })
+      {
+        ENV       = var.env
+        COMPONENT = var.component_name
+      })
   )
 
   tag_specifications {
@@ -68,11 +69,12 @@ resource "aws_launch_template" "main" {
 }
 
 resource "aws_autoscaling_group" "main" {
-  availability_zones = ["us-east-1a","us-east-1b"]
-  desired_capacity   = var.asg["min_size"]
-  max_size           = var.asg["max_size"]
-  min_size           = var.asg["min_size"]
-  target_group_arns  = [aws_lb_target_group.main.arn]
+  availability_zones = ["us-east-1a", "us-east-1b"]
+  desired_capacity = var.asg["min_size"]
+  max_size         = var.asg["max_size"]
+  min_size         = var.asg["min_size"]
+  target_group_arns = [aws_lb_target_group.main.arn]
+
   launch_template {
     id      = aws_launch_template.main.id
     version = "$Latest"
@@ -85,15 +87,15 @@ resource "aws_lb_target_group" "main" {
   protocol = "HTTP"
   vpc_id   = var.vpc_id
 
-    health_check {
-    path = "/health"
-    healthy_threshold = 2
+  health_check {
+    path                = "/health"
+    healthy_threshold   = 2
     unhealthy_threshold = 2
-      interval = 5
-      timeout = 2
-      matcher = "200,403"
+    interval            = 5
+    timeout             = 2
+    matcher             = "200,403"
 
-    }
+  }
 }
 
 resource "aws_lb" "main" {
@@ -107,23 +109,7 @@ resource "aws_lb" "main" {
     Environment = "${var.component_name}-${var.env}"
   }
 }
-#
-# resource "aws_lb_target_group" "main" {
-#   name     = "${var.component_name}-${var.env}"
-#   port     = var.alb["ports"]
-#   protocol = "HTTP"
-#   vpc_id   = var.vpc_id
-#
-#   health_check {
-#   path = "/health"
-#   healthy_threshold = 2
-#   unhealthy_threshold = 2
-#     interval = 5
-#     timeout = 2
-#     matcher = "200,403"
-#
-#   }
-#   }
+
 resource "aws_lb_listener" "main" {
   load_balancer_arn = aws_lb.main.arn
   port              = var.alb["ports"]
